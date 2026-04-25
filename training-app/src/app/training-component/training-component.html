@@ -1,0 +1,92 @@
+@if (router.url === '/add-training') {
+<div class="form-container">
+    <div class="form-card">
+        <h2>Training Registration Form</h2>
+
+        <form #myForm="ngForm" (ngSubmit)="onSubmit(myForm)">
+            <div class="input-group">
+                <label>Training Title</label>
+                <input type="text" name="title" #title="ngModel" placeholder="Enter training title" required [(ngModel)]="training.trainingTitle">
+                @if(title.errors?.['required'] && title.touched){
+                    <span style="color: red;">This is required</span>
+                }
+
+            </div>
+
+            <div class="input-group">
+                <label>Topic</label>
+                <input type="text" name="topic" placeholder="Enter topic" #topic="ngModel" [(ngModel)] = "training.topic" required>
+                @if(topic.errors?.['required'] && topic.touched){
+                    <span style="color: red;">This is required</span>
+                }
+            </div>
+
+            <div class="input-group">
+                <label>Maximum Trainees</label>
+                <input type="number" name="max-trainess" placeholder="Enter number" max="30" min="5" required #maxTrainees="ngModel" [(ngModel)]="training.maxTrainees">
+                @if(maxTrainees.errors?.['required'] && maxTrainees.touched){
+                    <span style="color: red;">This is required</span>
+                }
+                @if(maxTrainees.errors?.['max']){
+                    <span style="color: red;">Maximum 30 trainees are allowed</span>
+                }
+                @if(maxTrainees.errors?.['min']){
+                    <span style="color: red;">Minimum 5 trainees are required</span>
+                }
+                
+            </div>
+
+            <div class="date-row">
+                <div class="input-group">
+                    <label>Start Date</label>
+                    <input type="date" name="startDate" [(ngModel)]="training.startDate" #startDate="ngModel" required>
+                </div>
+
+                <div class="input-group">
+                    <label>End Date</label>
+                    <input type="date" name="endDate" [(ngModel)]="training.endDate" #endDate="ngModel" required>
+                     @if(isInvalidDate() == true){
+                     <span style="color: red;">End date can't be earlier than start date</span>
+                }
+                </div>
+
+               
+            </div>
+
+            <div class="input-group">
+                <label>Trainer Name</label>
+                <input type="text" placeholder="Enter trainer name" name="trainer" [(ngModel)]="training.trainerName" #trainer="ngModel" required>
+                @if(maxTrainees.errors?.['required'] && maxTrainees.touched){
+                    <span style="color: red;">This is required</span>
+                }
+            </div>
+
+            <div class="input-group">
+                <label>Venue</label>
+                <select name="venue" [(ngModel)]="training.venue">
+                    <option value="later">Will be notified later</option>
+                    @for(v of venues; track v){
+                        <option [value]="v">{{v}}</option>
+                    }
+                </select>
+            </div>
+
+            <button type="submit" [disabled]="myForm.invalid">Submit Training</button>
+        </form>
+    
+    </div>
+</div>
+}
+
+@if(router.url === '/trainings'){
+       @for(t of trainings; track $index){
+      <div class="training-card">          <!-- ✅ single wrapper per item -->
+        <p><strong>Title:</strong> {{ t.trainingTitle }}</p>
+        <p><strong>Trainer:</strong> {{ t.trainerName }}</p>
+        <p><strong>Topic:</strong> {{ t.topic }}</p>
+        <p><strong>Start Date:</strong> {{ t.startDate | date }}</p>
+        <p><strong>End Date:</strong> {{ t.endDate | date }}</p>
+        <p><strong>Venue:</strong> {{ t.venue }}</p>
+      </div>
+    }
+}

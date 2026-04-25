@@ -1,0 +1,18 @@
+.nav{
+    background-color: navy;
+    display:flex;
+    align-items:center;
+    gap:40px;
+    padding-left:30px;
+    height: 100px;
+}
+
+.link{
+    color:blanchedalmond;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: xx-large;
+}
+
+.link:hover{
+    color: aqua;
+}
